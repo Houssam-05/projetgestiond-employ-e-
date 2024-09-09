@@ -17,7 +17,7 @@ from django.http import HttpResponse
 def home(request):
     return HttpResponse("Bienvenue sur la page d'accueil")
 
-@api_view(['GET', 'POST', 'PUT', 'DELETE,OPTIONS'])
+@api_view(['GET', 'POST', 'PUT', 'DELETE' , 'OPTIONS'])
 @permission_classes([IsAuthenticated])
 def departmentApi(request, id=0):
     if request.method == 'GET':
@@ -29,7 +29,7 @@ def departmentApi(request, id=0):
         else:
             # Obtenir un seul département par ID
             try:
-                department = Departments.objects.get(DepartmentsId=id)
+                department = Departments.objects.get(DepartmentId=id)
                 department_serializer = DepartementSerializer(department)
                 return JsonResponse(department_serializer.data, safe=False)
             except Departments.DoesNotExist:
@@ -57,7 +57,7 @@ def departmentApi(request, id=0):
 
     elif request.method == 'DELETE':
         try:
-            department = Departments.objects.get(DepartmentsId=id)
+            department = Departments.objects.get(DepartmentId=id)
             department.delete()
             return JsonResponse({"message": "Deleted successfully"}, status=200)
         except Departments.DoesNotExist:
@@ -110,14 +110,13 @@ def employeeApi(request, id=0):
 
     elif request.method == 'DELETE':
         try:
-            employee = Employees.objects.get(EmployeesId=id)  # Utilisation correcte de l'id dans l'URL
-            employee.delete()  # Suppression correcte
-            return JsonResponse({"message": "Deleted Successfully!!"}, status=200)  # Réponse JSON avec message
-        except Employees.DoesNotExist:
-            return JsonResponse({"error": "Employee not found."}, status=404)  # Réponse JSON avec erreur 404
-        except Exception as e:
-            return JsonResponse({'error': str(e)}, status=500)  
-    
+            department = Departments.objects.get(DepartmentId=id)
+            department.delete()
+            return JsonResponse({"message": "Deleted successfully"}, status=200)
+        except Departments.DoesNotExist:
+            return JsonResponse({"message": "Department not found"}, status=404)
+
+    return JsonResponse({"message": "Method not allowed"}, status=405)
 
 @csrf_exempt
 def SaveFile(request):
