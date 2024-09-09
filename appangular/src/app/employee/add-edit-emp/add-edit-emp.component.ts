@@ -55,7 +55,7 @@ export class AddEditEmpComponent implements OnInit {
   }
 
   updateEmployee(){
-    var val = {EmployeeId:this.EmployeesId,
+    var val = {EmployeesId:this.EmployeesId,
       EmployeesName:this.EmployeesName,
       Department:this.Department,
     DateOfJoining:this.DateOfJoining,

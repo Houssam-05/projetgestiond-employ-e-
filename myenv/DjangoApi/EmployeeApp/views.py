@@ -111,12 +111,12 @@ def employeeApi(request, id=0):
     elif request.method == 'DELETE':
         try:
             employee = Employees.objects.get(EmployeesId=id)  # Utilisation correcte de l'id dans l'URL
-            employee.delete()  # Correction ici (delete() au lieu de delet())
-            return JsonResponse("Deleted Successfully!!", safe=False)
+            employee.delete()  # Suppression correcte
+            return JsonResponse({"message": "Deleted Successfully!!"}, status=200)  # Réponse JSON avec message
         except Employees.DoesNotExist:
-            return JsonResponse("Employee not found.", safe=False)
+            return JsonResponse({"error": "Employee not found."}, status=404)  # Réponse JSON avec erreur 404
         except Exception as e:
-            return JsonResponse({'error': str(e)}, status=500)
+            return JsonResponse({'error': str(e)}, status=500)  
     
 
 @csrf_exempt

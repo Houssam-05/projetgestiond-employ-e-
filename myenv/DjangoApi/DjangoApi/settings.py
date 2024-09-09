@@ -60,6 +60,24 @@ REST_FRAMEWORK = {
 
 CORS_ORIGIN_ALLOW_ALL=True
 CORS_ORIGIN_WHITELIST=('')
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+]
+
+CORS_ALLOW_HEADERS = [
+    "authorization",
+    "content-type",
+    "x-csrftoken",
+    "x-requested-with",
+]
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:4200",
+]
 
 MIDDLEWARE = [
     

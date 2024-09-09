@@ -30,7 +30,7 @@ export class LoginComponent {
         console.log('Connexion réussie !');
 
         // Rediriger vers une autre page après la connexion
-        this.router.navigate(['login']);  // Remplace 'dashboard' par la route de ton choix
+        this.router.navigate(['employee']);  // Remplace 'dashboard' par la route de ton choix
       },
       (      error: any) => {
         console.error('Erreur de connexion :', error);

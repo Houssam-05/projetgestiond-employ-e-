@@ -23,6 +23,11 @@ export class SharedService {
   login(credentials: { username: string, password: string }): Observable<any> {
     return this.http.post(this.APIUrl + '/api/token/', credentials)
       .pipe(catchError(this.handleError));
+
+  }
+  isLoggedIn(): boolean {
+    // Vérifie si le token JWT est présent dans localStorage
+    return !!localStorage.getItem('access_token');
   }
 
   // Ajoute le token JWT dans les en-têtes

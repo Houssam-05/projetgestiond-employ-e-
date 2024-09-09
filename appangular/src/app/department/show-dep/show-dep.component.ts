@@ -4,6 +4,7 @@ import { CommonModule, NgFor } from '@angular/common';
 
 import { AddEditDepComponent } from '../add-edit-dep/add-edit-dep.component';
 import { DepartmentComponent } from '../department.component';
+import { RouterLink, RouterModule } from '@angular/router';
 
 
 
@@ -12,7 +13,7 @@ import { DepartmentComponent } from '../department.component';
   standalone: true,
   templateUrl: './show-dep.component.html',
   styleUrls: ['./show-dep.component.css'],
-  imports: [NgFor,DepartmentComponent,AddEditDepComponent,CommonModule],
+  imports: [NgFor,DepartmentComponent,AddEditDepComponent,CommonModule,RouterLink]
 
 })
 export class ShowDepComponent implements OnInit {

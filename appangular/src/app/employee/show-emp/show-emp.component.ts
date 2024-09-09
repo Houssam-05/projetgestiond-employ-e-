@@ -3,6 +3,7 @@ import { SharedService } from '../../shared.service';
 import { EmployeeComponent } from '../employee.component';
 import { AddEditEmpComponent } from '../add-edit-emp/add-edit-emp.component';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 
 @Component({
@@ -10,7 +11,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-show-emp',
   templateUrl: './show-emp.component.html',
   styleUrls: ['./show-emp.component.css'],
-  imports: [EmployeeComponent,AddEditEmpComponent,CommonModule],
+  imports: [EmployeeComponent,AddEditEmpComponent,CommonModule,RouterLink],
 })
 export class ShowEmpComponent implements OnInit {
 
