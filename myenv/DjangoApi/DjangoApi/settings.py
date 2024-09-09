@@ -14,7 +14,7 @@ from pathlib import Path
 import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 MEDIA_URL='/media/'
-MEDIA_ROOT=os.path.join(BASE_DIR,"media")
+MEDIA_ROOT = r'C:/Users/Asus/Desktop'
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
@@ -44,7 +44,9 @@ INSTALLED_APPS = [
     'EmployeeApp',
     #'EmployeeApp.apps.EmployeeappConfig',
     'rest_framework',
+    'corsheaders',
     'rest_framework_simplejwt',
+
 ]
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -67,6 +69,8 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
@@ -133,6 +137,13 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+CORS_ALLOW_ALL_ORIGINS = True  # Pour permettre toutes les origines
+# Ou, pour permettre des origines spécifiques :
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:4200",  # Remplacez par l'origine de votre frontend
+]
+
 
 
 # Static files (CSS, JavaScript, Images)

@@ -9,5 +9,7 @@ import { ShowDepComponent } from './show-dep/show-dep.component';
   styleUrl: './department.component.css'
 })
 export class DepartmentComponent {
+  DepartmentId: string | undefined;
+  DepartmentName: string | undefined;
 
 }

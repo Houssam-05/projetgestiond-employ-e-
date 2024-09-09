@@ -1,65 +1,77 @@
-import { Component, OnInit } from '@angular/core';
+import { Component,Input,OnInit } from '@angular/core';
 import { SharedService } from '../../shared.service';
-import { CommonModule, NgFor, NgIf } from '@angular/common'; // NgFor is part of CommonModule
-import { DepartmentComponent } from '../department.component';
+import { CommonModule, NgFor } from '@angular/common';
+
 import { AddEditDepComponent } from '../add-edit-dep/add-edit-dep.component';
+import { DepartmentComponent } from '../department.component';
+
+
 
 @Component({
   selector: 'app-show-dep',
   standalone: true,
-  imports: [NgIf,CommonModule,AddEditDepComponent], // Importing CommonModule instead of just NgFor
   templateUrl: './show-dep.component.html',
-  styleUrls: ['./show-dep.component.css'] // Corrected typo from 'styleUrl' to 'styleUrls'
+  styleUrls: ['./show-dep.component.css'],
+  imports: [NgFor,DepartmentComponent,AddEditDepComponent,CommonModule],
+
 })
 export class ShowDepComponent implements OnInit {
-  constructor(private service: SharedService) {}
 
-  DepartmentList: any[] = [];
-  ModalTitle: any;
-  ActivateAddEditDepComp: boolean = false;
-  dep: any;
+  constructor(private service:SharedService) { }
+  DepartmentList:any=[];
+  dep:any;
 
-  DepartmentIdFilter: string = "";
-  DepartmentNameFilter: string = "";
-  DepartmentListWithoutFilter: any[] = [];
+  ModalTitle:string | undefined;
+  ActivateAddEditDepComp:boolean=false;
+
+
+  DepartmentIdFilter:string="";
+  DepartmentNameFilter:string="";
+  DepartmentListWithoutFilter:any=[];
 
   ngOnInit(): void {
     this.refreshDepList();
+
+
+  }
+  addClick(){
+    this.dep={
+      DepartmentId:0,
+      DepartmentName:""
+    }
+    this.ModalTitle="Add Department";
+    this.ActivateAddEditDepComp=true;
+
   }
 
-  addClick(): void {
-    this.dep = {
-      DepartmentId: 0,
-      DepartmentName: ""
-    };
-    this.ModalTitle = "Add Department";
-    this.ActivateAddEditDepComp = true;
+  editClick(item: any){
+    this.dep=item;
+    this.ModalTitle="Edit Department";
+    this.ActivateAddEditDepComp=true;
   }
-
-  editClick(item: any): void {
-    this.dep = item;
-    this.ModalTitle = "Edit Department";
-    this.ActivateAddEditDepComp = true;
-  }
-
-  deleteClick(item: any): void {
-    if (confirm('Are you sure??')) {
-      this.service.deleteDepartement(item.DepartmentId).subscribe(data => {
-        alert(data.toString());
-        this.refreshDepList();
-      });
+  deleteClick(item: { DepartmentId: any }) {
+    if (confirm('Are you sure you want to delete this department?')) {
+      this.service.deleteDepartement(item.DepartmentId).subscribe(
+        (response) => {
+          // Optionally log the response or perform other actions
+          alert('Department deleted successfully!');
+          this.refreshDepList();  // Refresh the list to reflect changes
+        },
+        (error) => {
+          console.error('Error deleting department', error);
+          alert('Failed to delete department. Please try again.');
+        }
+      );
     }
   }
-
-  refreshDepList(): void {
-    this.service.getDepList().subscribe(data => {
-      this.DepartmentList = data;
-    });
-  }
-
   closeClick(){
     this.ActivateAddEditDepComp=false;
     this.refreshDepList();
   }
-}
+  refreshDepList(){
+    this.service.getDepList().subscribe(data =>{
+      this.DepartmentList=data;
+    })
+  }
 
+}
