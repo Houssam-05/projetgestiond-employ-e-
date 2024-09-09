@@ -76,7 +76,8 @@ export class SharedService {
   }
 
   deleteEmploye(val: any): Observable<any> {
-    return this.http.delete(this.APIUrl + 'employee/' + val, { headers: this.getAuthHeaders() })
+    const url = `${this.APIUrl}employee/${val}/`;
+    return this.http.delete(url, { headers: this.getAuthHeaders() })
       .pipe(catchError(this.handleError));
   }
 
