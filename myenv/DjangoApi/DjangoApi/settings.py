@@ -18,7 +18,7 @@ MEDIA_ROOT = r'C:/Users/Asus/Desktop'
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
-
+AUTH_USER_MODEL = 'EmployeeApp.CustomUser'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -54,6 +54,9 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,  # La taille de page pour la pagination
+    #'DEFAULT_PERMISSION_CLASSES': [
+     #   'rest_framework.permissions.IsAuthenticated',
+    #],
 }
 
 # Configuration des paramètres de JWT
@@ -118,10 +121,15 @@ WSGI_APPLICATION = 'DjangoApi.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'db',  # Remplacez par le nom de votre base de données
+        'USER': 'root',  # Remplacez par votre utilisateur MySQL
+        'PASSWORD': '',  # Remplacez par votre mot de passe MySQL
+        'HOST': 'localhost',  # Ou l'adresse IP du serveur MySQL si ce n'est pas en local
+        'PORT': '3306',  # Le port par défaut pour MySQL
     }
 }
+
 
 
 # Password validation

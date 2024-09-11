@@ -1,0 +1,27 @@
+<form (ngSubmit)="onSubmit()" class="container mt-4">
+  <h2>S'inscrire</h2>
+
+  <div class="form-group">
+    <label for="username">Nom d'utilisateur :</label>
+    <input type="text" [(ngModel)]="registerData.username" name="username" class="form-control" id="username" required>
+  </div>
+
+  <div class="form-group">
+    <label for="password">Mot de passe :</label>
+    <input type="password" [(ngModel)]="registerData.password" name="password" class="form-control" id="password" required>
+  </div>
+
+  <div class="form-group">
+    <label for="role">Rôle :</label>
+    <select [(ngModel)]="registerData.role" name="role" class="form-control" id="role" required>
+      <option value="admin">Administrateur</option>
+      <option value="user">Utilisateur</option>
+    </select>
+  </div>
+
+  <button type="submit" class="btn btn-primary mt-4">S'inscrire</button>
+</form>
+
+<div class="container mt-3 text-center">
+  <p>Déjà inscrit ? <a [routerLink]="['/login']" class="btn btn-link">Connectez-vous ici</a></p>
+</div>
