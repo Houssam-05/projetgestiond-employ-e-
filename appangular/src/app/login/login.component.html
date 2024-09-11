@@ -1,18 +1,19 @@
-<div class="login-container">
+<form (ngSubmit)="onLogin()" class="container mt-4">
   <h2>Connexion</h2>
-  <form (ngSubmit)="onLogin()" #loginForm="ngForm">
-    <div>
-      <label for="username">Identifiant</label>
-      <input type="text" id="username" name="username" [(ngModel)]="username" required>
-    </div>
 
-    <div>
-      <label for="password">Mot de passe</label>
-      <input type="password" id="password" name="password" [(ngModel)]="password" required>
-    </div>
+  <div class="form-group">
+    <label for="username">Nom d'utilisateur :</label>
+    <input type="text" [(ngModel)]="username" name="username" required class="form-control" id="username">
+  </div>
 
-    <button type="submit" [disabled]="!loginForm.valid">Connexion</button>
-  </form>
+  <div class="form-group">
+    <label for="password">Mot de passe :</label>
+    <input type="password" [(ngModel)]="password" name="password" required class="form-control" id="password">
+  </div>
 
-  <!-- La barre de navigation s'affiche seulement si l'utilisateur est connecté -->
-  
+  <button type="submit" class="btn btn-primary mt-4">Se connecter</button>
+
+  <div class="form-group mt-3 text-center">
+    <p>Vous n'avez pas de compte ? <a [routerLink]="['/register']" class="btn btn-link">Créer un compte</a></p>
+  </div>
+</form>

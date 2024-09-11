@@ -1,25 +1,26 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { SharedService } from '../shared.service';  // Assure-toi d'importer correctement ton service
+import { Router, RouterLink } from '@angular/router';
+import { SharedService } from '../shared.service';
 import { FormsModule } from '@angular/forms';
 
 @Component({
+  standalone: true,
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  standalone: true,  // <-- Indiquer que le composant est standalone
-  imports: [FormsModule]
+  imports: [FormsModule, RouterLink]
 })
 export class LoginComponent {
   username: string = '';
   password: string = '';
+  role: string = '';
 
   constructor(private sharedService: SharedService, private router: Router) { }
 
   onLogin() {
     const credentials = {
       username: this.username,
-      password: this.password
+      password: this.password,
     };
 
     this.sharedService.login(credentials).subscribe(
@@ -27,14 +28,24 @@ export class LoginComponent {
         // Sauvegarder le token JWT dans localStorage
         localStorage.setItem('access_token', response.access);
         localStorage.setItem('refresh_token', response.refresh);
-        console.log('Connexion réussie !');
 
-        // Rediriger vers une autre page après la connexion
-        this.router.navigate(['employee']);  // Remplace 'dashboard' par la route de ton choix
+        this.router.navigate(['/employee']);
+
+
+        // Récupérer et afficher le rôle
+        this.retrieveUserRole();
+
+
       },
-      (      error: any) => {
-        console.error('Erreur de connexion :', error);
+      (error: any) => {
+        console.error('Erreur lors de la connexion :', error);
       }
     );
+  }
+
+  // Méthode pour récupérer le rôle depuis localStorage
+  retrieveUserRole() {
+    this.role = localStorage.getItem('user_role') || 'user';  // Valeur par défaut si le rôle n'est pas trouvé
+    console.log('Le rôle de l\'utilisateur est :', this.role);
   }
 }

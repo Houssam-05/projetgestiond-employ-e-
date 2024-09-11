@@ -3,22 +3,25 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
-from EmployeeApp.models import Departments,Employees
-from EmployeeApp.serializers import DepartementSerializer,EmployeesSerializer
+
+from .permissions import IsAdminUserOrReadOnly
+from EmployeeApp.models import Departments, Employees
+from EmployeeApp.serializers import DepartementSerializer, EmployeesSerializer,UserRegistrationSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
-
-
+from rest_framework import status
+from rest_framework.views import APIView
 from django.core.files.storage import default_storage
 from django.http import HttpResponse
+from .models import CustomUser
 
 @csrf_exempt
 def home(request):
     return HttpResponse("Bienvenue sur la page d'accueil")
 
 @api_view(['GET', 'POST', 'PUT', 'DELETE' , 'OPTIONS'])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated,IsAdminUserOrReadOnly])
 def departmentApi(request, id=0):
     if request.method == 'GET':
         if id == 0:
@@ -65,10 +68,11 @@ def departmentApi(request, id=0):
 
     return JsonResponse({"message": "Method not allowed"}, status=405)
     
+    
 
 @csrf_exempt
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated,IsAdminUserOrReadOnly])
 def employeeApi(request, id=0):
     if request.method == 'GET':
         employees = Employees.objects.all()
@@ -110,11 +114,11 @@ def employeeApi(request, id=0):
 
     elif request.method == 'DELETE':
         try:
-            department = Departments.objects.get(DepartmentId=id)
-            department.delete()
+            employee = Employees.objects.get(EmployeesId=id)
+            employee.delete()
             return JsonResponse({"message": "Deleted successfully"}, status=200)
         except Departments.DoesNotExist:
-            return JsonResponse({"message": "Department not found"}, status=404)
+            return JsonResponse({"message": "Employee not found"}, status=404)
 
     return JsonResponse({"message": "Method not allowed"}, status=405)
 
@@ -126,3 +130,25 @@ def SaveFile(request):
         return JsonResponse({'file_name': file_name, 'status': 'success'})
     else:
         return JsonResponse({'error': 'No file uploaded or invalid request method'}, status=400)
+    
+class UserRegistrationView(APIView):
+    def get(self, request, *args, **kwargs):
+        user_id = kwargs.get('pk')  # Récupère l'identifiant de l'utilisateur à partir des arguments
+        if user_id:
+            try:
+                user = CustomUser.objects.get(pk=user_id)
+                serializer = UserRegistrationSerializer(user)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            except CustomUser.DoesNotExist:
+                return Response({"detail": "Utilisateur non trouvé"}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            return Response({"detail": "ID utilisateur manquant"}, status=status.HTTP_400_BAD_REQUEST)
+
+    def post(self, request):
+        serializer = UserRegistrationSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Utilisateur créé avec succès"}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+

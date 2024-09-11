@@ -3,25 +3,25 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  height: 100vh;
+  height: 100vh; /* Assure que l'image de fond couvre toute la hauteur de la page */
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .container {
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 0.9); /* Fond blanc légèrement transparent */
   padding: 30px;
   border-radius: 10px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-  max-width: 400px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Ombre pour effet visuel */
+  max-width: 400px; /* Limite la largeur du formulaire */
   width: 100%;
 }
 
 h2 {
   text-align: center;
   margin-bottom: 20px;
-  color: #343a40;
+  color: #343a40; /* Couleur sombre pour le titre */
 }
 
 label {
@@ -29,7 +29,7 @@ label {
 }
 
 .btn-primary {
-  width: 100%;
+  width: 100%; /* Bouton pleine largeur */
   padding: 10px;
   font-size: 16px;
 }
@@ -37,7 +37,7 @@ label {
 .btn-link {
   padding-left: 0;
   font-size: 14px;
-  color: #007bff;
+  color: #007bff; /* Couleur bleue pour le lien */
 }
 
 a.btn-link:hover {

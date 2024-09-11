@@ -1,3 +1,5 @@
 from django.contrib import admin
 
-# Register your models here.
+class CustomUserAdmin(admin.ModelAdmin):
+    list_display = ('username', 'role', 'is_staff', 'is_superuser')
+    search_fields = ('username',)
